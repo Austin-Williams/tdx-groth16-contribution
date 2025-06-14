@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Nix 2.29.0
-NIX_IMG="nixos/nix@sha256:00aa010b193c465d04cba4371979097741965efaff6122f3a268adbfbeab4321"
+# Nix ≥2.17 (supports flake.lock v7)
+NIX_IMG="nixos/nix:2.17.0"
 
 docker run --rm \
   -e USER="$(id -un)" \
