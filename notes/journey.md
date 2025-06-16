@@ -102,3 +102,5 @@ e015ef3bc217ff8cad2085fd95b55628b02e43ddd161a3ddfe47ed713ecfdec9
 
 - Okay, we're on day 3 of trying to reproduce the published binaries from source. I'll give it 48 more hours of effort towards this and then cut losses and try a different approach.
 
+- Tried for a few hours to get rustup (in Docker) to use rust v1.73.0 but for a reason we cannot debug, when we actually do the build it somehow always uses v1.87.0. (even when verifying that rust --version is v1.73.0 immediately before the cargo build command). Very odd. Going to try installing rust v1.73.0 only (and then if I have to, setting up firewall to block any network calls that might fetch any other version of rust -- hopefully will not come to that).
+

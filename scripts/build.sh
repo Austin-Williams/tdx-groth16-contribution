@@ -33,16 +33,10 @@ fi
 #   BUILT_ZOKRATES_SHA=<digest>
 # on success.  The build output is streamed so the user has normal feedback.
 
-SHA_LINE=""
-
-# Capture docker build output line-by-line so we can grep for the digest but
-# still stream everything to stdout.
-while IFS= read -r line; do
-  echo "$line"
-  if [[ "$line" =~ .*BUILT_ZOKRATES_SHA=([a-f0-9]{64}) ]]; then
-    SHA_LINE="${BASH_REMATCH[1]}"
-  fi
-done < <(docker build -t "$IMAGE_TAG" "$PROJECT_ROOT" "$@")
+# Build the image and capture the SHA line.
+# The docker build output is processed to find the SHA.
+# All docker build output is still sent to stdout for visibility.
+SHA_LINE=$(docker build --progress=plain -t "$IMAGE_TAG" "$PROJECT_ROOT" "$@" | tee /dev/tty | awk '/BUILT_ZOKRATES_SHA=/ {match($0, /BUILT_ZOKRATES_SHA=([a-f0-9]{64})/, arr); print arr[1]; exit}')
 
 if [[ -z "$SHA_LINE" ]]; then
   # Either the docker build failed very early (e.g. no daemon permission) or the

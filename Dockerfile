@@ -9,7 +9,11 @@ ARG ZOK_COMMIT=157a824426e213fbcd05c74220c706095be1ee7a
 ARG Other=1699599600
 ARG SNAPSHOT_DATE=20231110T000000Z
 ENV TZ=UTC
+# Hard-code build-id to match upstream release for bit-for-bit reproduction
+ENV RUSTFLAGS="-C link-arg=-fuse-ld=gold -C link-arg=-Wl,--build-id=0x2664b4bb2894d395204c0a31a5957764fd68709d"
 ENV DEBIAN_FRONTEND=noninteractive
+# Freeze timestamps for deterministic archives/binary sections
+ENV SOURCE_DATE_EPOCH=1699599600
 # Embed fully deterministic paths *and* disable ELF build-id generation which
 # otherwise bakes a random UUID into the output ELF.  The upstream artefact is
 # stripped so the section is absent; turning it off at link-time makes the
@@ -34,26 +38,27 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN --mount=type=cache,target=/var/cache/apt \
 	apt-get update -qq && \
 	apt-get install -y --no-install-recommends \
-	ca-certificates curl git build-essential pkg-config upx-ucl && \
+	ca-certificates curl git build-essential pkg-config upx-ucl binutils-gold && \
 	rm -rf /var/lib/apt/lists/*
 
 # minimal deps from frozen snapshot
 # (Removed: dependencies now installed in consolidated bootstrap layer above.)
 
-# exact toolchain
-ENV RUSTUP_INIT_SKIP_PATH_CHECK=yes
-ENV PATH="/root/.cargo/bin:${PATH}"
+# Install Rust 1.73.0 from standalone installer
+RUN curl -fOL https://static.rust-lang.org/dist/rust-1.73.0-x86_64-unknown-linux-gnu.tar.gz && \
+    tar -xzf rust-1.73.0-x86_64-unknown-linux-gnu.tar.gz && \
+    cd rust-1.73.0-x86_64-unknown-linux-gnu && \
+    ./install.sh --prefix=/usr/local --without=rust-docs && \
+    cd .. && \
+    rm -rf rust-1.73.0-x86_64-unknown-linux-gnu*
 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --profile minimal --default-toolchain none && \
-    rustup toolchain install 1.73.0 --profile default && \
-    rustup default 1.73.0 && \
-    rustc --version && \
-    cargo --version
+# Set path for the new rust installation
+ENV PATH="/usr/local/bin:${PATH}"
 
+# Clone the repository
 WORKDIR /src
 RUN git clone https://github.com/Zokrates/ZoKrates.git . \
-	&& git checkout ${ZOK_COMMIT} \
-	&& echo '1.73.0' > rust-toolchain
+	&& git checkout ${ZOK_COMMIT}
 
 # Build in a fully reproducible manner.
 # 1. Ensure timestamps inside archive/binary are fixed via SOURCE_DATE_EPOCH.
@@ -74,8 +79,11 @@ RUN git clone https://github.com/Zokrates/ZoKrates.git . \
 # SOURCE_DATE_EPOCH and no non-deterministic filesystem metadata leaks into the
 # next layers.
 
-RUN SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH} \
-	CARGO_PROFILE_RELEASE_INCREMENTAL=false \
-	CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1 \
+RUN echo "--- DEBUGGING BUILD ENV ---" && \
+    echo "PATH: $PATH" && \
+    which rustc && \
+    rustc --version && \
+    echo "---------------------------" && \
+    SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH} \
 	cargo build --release --locked --package zokrates_cli && \
 	echo "BUILT_ZOKRATES_SHA=$(sha256sum target/release/zokrates | awk '{print $1}')"
