@@ -1,0 +1,23 @@
+===== official =====
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+
+-- Build-ID --
+Build ID: 2664b4bb2894d395204c0a31a5957764fd68709d
+-- embedded rustc string --
+rustc version 1.73.0 (cc66ad468 2023-10-03)
+
+===== built =====
+904d7cd81d935c4ee9ef4f53455c1c76eb916b1ec01204c3998283ebf36e285f  zokrates_built
+
+-- Build-ID --
+Build ID: 2640e9b0535d783fb253c54fa14e962117ed9907
+-- embedded rustc string --
+rustc version 1.87.0 (17067e9ac 2025-05-09)
+
+===== ANALYSIS =====
+ROOT CAUSE IDENTIFIED: Rust version mismatch!
+- Official binary was built with rustc 1.73.0 (2023-10-03)
+- Our build used rustc 1.87.0 (2025-05-09) 
+- This explains the different Build IDs and SHA-256 hashes
+
+SOLUTION: Fix Dockerfile to actually use Rust 1.73.0, not 1.87.0

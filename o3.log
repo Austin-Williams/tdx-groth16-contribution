@@ -1,0 +1,208 @@
+========== o3 investigation run @ 2025-06-16T04:43:07Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---
+========== o3 investigation run @ 2025-06-16T04:57:38Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---
+========== o3 investigation run @ 2025-06-16T05:02:57Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---
+========== o3 investigation run @ 2025-06-16T05:05:26Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---
+========== o3 investigation run @ 2025-06-16T05:12:12Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---
+========== o3 investigation run @ 2025-06-16T05:15:01Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---
+========== o3 investigation run @ 2025-06-16T05:22:50Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---
+========== o3 investigation run @ 2025-06-16T05:40:59Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---
+========== o3 investigation run @ 2025-06-16T06:14:51Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+./scripts/o3.sh: line 72: BIN_TMP: unbound variable
+========== o3 investigation run @ 2025-06-16T06:28:38Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh  ---
+========== o3 investigation run @ 2025-06-16T06:40:22Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh  ---
+========== o3 investigation run @ 2025-06-16T07:15:21Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh  ---
+========== o3 investigation run @ 2025-06-16T15:18:09Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh  ---
+========== o3 investigation run @ 2025-06-16T15:20:33Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---
+========== o3 investigation run @ 2025-06-16T15:34:42Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---
+========== o3 investigation run @ 2025-06-16T15:43:37Z ==========
+\n--- Downloading official ZoKrates 0.8.8 binary ---
+\n[official] sha256sum
+b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16  zokrates
+\n[official] file(1)
+zokrates: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=2664b4bb2894d395204c0a31a5957764fd68709d, for GNU/Linux 3.2.0, with debug_info, not stripped
+\n[official] ldd
+ldd not available
+\n[official] UPX test
+upx utility not installed
+\n[official] readelf --notes | head -20
+readelf not installed
+\n--- Building Docker image via ./scripts/build.sh --no-cache ---

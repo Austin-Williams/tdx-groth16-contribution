@@ -74,5 +74,31 @@ sigh. Apparently getting Nix to make an x86 image on Apple silicon isn't a thing
 
 Okay, ditching Nix and trying Docker + pin + pray.
 
-(Note: Uninstalling Nix was [quite involved](https://nix.dev/manual/nix/2.28/installation/uninstall#macos). I highly reccomend NOT installing it on your personal machine).
+(Note: Uninstalling Nix was [quite involved](https://nix.dev/manual/nix/2.28/installation/uninstall#macos). I reccommend NOT installing it on your personal machine).
+
+- Beginning Docker + pin approach.
+- Will target ZoKrates 0.8.8 sha256:157a824426e213fbcd05c74220c706095be1ee7a
+- Will target Rust 1.73.0 (amd64) sha256:25fa7a9aa4dadf6a466373822009b5361685604dbe151b030182301f1a3c2f58
+
+- oooh, I noticed Zokrates has a Docker image.
+- nevermind, its not reproducible
+- oooh, noticed they ship binaries!
+- But they are not signed. WIll see if the binaries are reproducible...
+- wrote script to get hash of binary in the "official" tarball
+(sha256:b3de37f64f283079dc85dea8db6f5ffc0da1206f4d01e4eeb5ef39718e518d16)
+- Attempted to reproduce the 
+e015ef3bc217ff8cad2085fd95b55628b02e43ddd161a3ddfe47ed713ecfdec9
+
+- Lots of trouble trying to reproduce the published binaries from source. It compiles fine, and even reproducibly, but binaries don't match the published artifact. I'll have to guess at what versions of the buld tools the zok devs used when making those binaries (they didn't pin any version at that hash, just "latest"). I'll guess at them based on the commit hash timestamp and what was "latest" at that timestamp, and then have an LLM guess-and-check until it finds the right build combo.
+
+- Def going to need a good LLM to help. Will use o3-Pro in Codex. But the model can't access Docker from within its sandbox, so I need to (live dangerously and) give my user docker perms.
+
+- Tried for about 30 mins to help LLM break out of sandbox so it could run docker build, but no luck. Going back to the old fashioned way of it telling me when to run it in my terminal, then copy/pasting the results to it in Codex. (Sigh). Such a PITA.
+- Process (in Codex): "You know what will make this faster? How about you create a scripts/o3.sh, put whatever you want in there. Perhaps even have it output the console to an o3.log file. Then I'll run it and tell you when it is finished running. You can check the results by looking at the o3.log file. Sound good?"
+
+- o3-Pro unable to get the the binaries to reproduce. Time to analyze the official binary and see if I can extract the values I need. Will try
+
+- signed up and bought credits for Anthropic. Unfortunately the API rate limits are crazy low -- like 20k toks/min (lol). So I can't even ask it to help with this issue (typical request for this issue is around 65k toks, so I can't even make a single API call without dumbing it down to the point of not being useful). Using Gemini 2.5 Pro instead.
+
+- Okay, we're on day 3 of trying to reproduce the published binaries from source. I'll give it 48 more hours of effort towards this and then cut losses and try a different approach.
 
