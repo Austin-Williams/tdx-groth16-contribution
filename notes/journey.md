@@ -104,3 +104,7 @@ e015ef3bc217ff8cad2085fd95b55628b02e43ddd161a3ddfe47ed713ecfdec9
 
 - Tried for a few hours to get rustup (in Docker) to use rust v1.73.0 but for a reason we cannot debug, when we actually do the build it somehow always uses v1.87.0. (even when verifying that rust --version is v1.73.0 immediately before the cargo build command). Very odd. Going to try installing rust v1.73.0 only (and then if I have to, setting up firewall to block any network calls that might fetch any other version of rust -- hopefully will not come to that).
 
+- No luck. Truly baffling. Still somehow uses v1.87.0.
+- Fixed that, got close to a bit for but match , but not quite. Could not resolve bytes in metadata.
+- Calling it quits. 3 days is enough time to try to get this to work. Changing direction here.
+
