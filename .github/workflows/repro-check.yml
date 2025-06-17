@@ -1,0 +1,87 @@
+# Reproducible ZoKrates Watchdog
+# Builds the binary on push, weekly, or manual trigger.
+# Fails (and opens an issue) if the fresh SHA-256 differs from the committed one.
+
+name: Reproducible ZoKrates Watchdog
+
+on:
+  push:
+    branches: [ main ]
+    tags:     [ "v*" ]
+  schedule:
+    # Every Monday 00:00 UTC
+    - cron: "0 0 * * 1"
+  workflow_dispatch: {}
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+
+    # allow creating issues from the workflow
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run deterministic build script (output to _ci_out)
+        env:
+          OUTPUT_DIR: _ci_out
+        run: ./scripts/build-zok-binary.sh
+
+      - name: Compare checksum to committed value
+        id: verify
+        shell: bash
+        run: |
+          echo "::group::Expected SHA-256 (committed)"; cat bin/zokrates-0.8.8.sha256; echo "::endgroup::"
+          echo "::group::Actual SHA-256 (fresh build)";  cat _ci_out/zokrates-0.8.8.sha256; echo "::endgroup::"
+
+          if ! diff -q bin/zokrates-0.8.8.sha256 _ci_out/zokrates-0.8.8.sha256; then
+            echo "::error::SHA-256 mismatch — reproducibility broken.";
+            echo "hash_ok=false" >> "$GITHUB_OUTPUT";
+            exit 1;
+          fi
+          echo "hash_ok=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upload build artefacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zokrates-binary
+          path: _ci_out/*
+
+      - name: Open GitHub Issue on failure
+        if: failure() && steps.verify.outputs.hash_ok == 'false'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "❌ Reproducible build hash mismatch"
+          content-filepath: .github/workflows/repro-build-failure-template.md
+          labels: reproducibility, bug
+
+# -------------------------------------------------
+# Publish artefacts when workflow runs on a tag
+# -------------------------------------------------
+  publish-on-tag:
+    needs: build-and-verify
+    if: startsWith(github.ref, 'refs/tags/') && needs.build-and-verify.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artefact
+        uses: actions/download-artifact@v4
+        with:
+          name: zokrates-binary
+          path: _ci_out
+
+      - name: Create / Update GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "Deterministic ZoKrates build – ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+          files: _ci_out/*

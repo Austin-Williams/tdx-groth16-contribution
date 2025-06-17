@@ -72,13 +72,13 @@ Auditors will verify reproducibility by:
 ### 5. Implementation Plan
 
 #### Phase 1: Environment Setup
-- [ ] Create Dockerfile in docker/zok-binary/ with pinned base image
-- [ ] Install exact Rust toolchain version
-- [ ] Set up all environment variables for reproducibility
+- [X] Create Dockerfile in docker/zok-binary/ with pinned base image
+- [X] Install exact Rust toolchain version
+- [X] Set up all environment variables for reproducibility
 
 #### Phase 2: Build Script Development
 - [ ] Create `build-zok-binary.sh` with clear documentation
-- [ ] Implement source cloning with commit verification
+- [X] Implement source cloning with commit verification
 - [ ] Add reproducible build flags and environment setup
 - [ ] Implement deterministic post-processing
 
