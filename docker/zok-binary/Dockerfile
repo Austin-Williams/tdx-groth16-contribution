@@ -36,7 +36,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 	SNAPSHOT_SECURITY_TS=20230515T032833Z \
 	# Disable ELF build-id to avoid host-dependent hash differences
 	RUSTFLAGS="-C link-arg=-Wl,--build-id=none -C embed-bitcode=no" \
+	# Disable incremental compilation
 	CARGO_INCREMENTAL=0 \
+	# Set single codegen unit
 	CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1
 
 WORKDIR /build
@@ -55,7 +57,7 @@ RUN --mount=type=cache,target=/var/cache/apt bash -c "set -euo pipefail; \
 	echo '=== Modified sources.list ==='; \
 	cat /etc/apt/sources.list; \
 	apt-get -o Acquire::Check-Valid-Until=false update; \
-	apt-get install -y --no-install-recommends git ca-certificates build-essential binutils tzdata; \
+	apt-get install -y --no-install-recommends git ca-certificates binutils gcc g++ libc6-dev make; \
 	rm -rf /var/lib/apt/lists/*"
 
 # ---------------------------------------------------------------------------
