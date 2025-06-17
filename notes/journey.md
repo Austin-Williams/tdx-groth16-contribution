@@ -115,3 +115,5 @@ e015ef3bc217ff8cad2085fd95b55628b02e43ddd161a3ddfe47ed713ecfdec9
 - I'm kind of stuck here. I'm fully convinced that it is not possible to create a reproducible build with Docker, given how much effort I have put into it over several different attempts in different situations. And even if I stick with it an eventually suceed, it just feels so fragile. There are so many little edge cases I continue to try to lock down. There is not "complete list of things to pin down" in order to make the build reproducible, so I'll never know if I've done it right. Wondering about other options here.
 
 - I know from having burned a day on it that Nix will not work in this case on Mac hardware (with or without docker), but I could spin up a server and build using Nix there. Annoying, but its an option. And supposedly Nix is all about "reproducible by construction", so it might not be a total waste of time.
+
+- Attempting to suss out the bin diff between local Docker build and Github Actions build. Don't want to give up on it yet. Current diff is showing the only divergance as `.note.gnu.build-id`, so I'm actually much closer than I thought. Should not change directions yet.
