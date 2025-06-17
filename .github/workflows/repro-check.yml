@@ -32,6 +32,18 @@ jobs:
           HASH_OUTPUT_DIR: _ci_out
         run: ./scripts/build-zok-binary.sh
 
+      - name: Second deterministic build (output to _ci_out2)
+        env:
+          BIN_OUTPUT_DIR: _ci_out2
+          HASH_OUTPUT_DIR: _ci_out2
+        run: ./scripts/build-zok-binary.sh
+
+      - name: "Smoke test – compare two CI builds"
+        id: smoke
+        run: |
+          diff -q _ci_out/zokrates-0.8.8 _ci_out2/zokrates-0.8.8 && echo "self_repro_ok=true" >> "$GITHUB_OUTPUT" || {
+            echo "::error::Two independent builds in same job differ!"; echo "self_repro_ok=false" >> "$GITHUB_OUTPUT"; exit 1; }
+
       - name: Copy CI binary into repo bin/
         run: |
           mkdir -p bin
@@ -58,6 +70,7 @@ jobs:
           name: zokrates-binary
           path: |
             _ci_out/*
+            _ci_out2/*
             bin/zokrates-0.8.8.ci
 
       - name: Fail job if mismatch
