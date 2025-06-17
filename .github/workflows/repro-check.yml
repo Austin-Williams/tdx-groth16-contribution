@@ -32,6 +32,11 @@ jobs:
           HASH_OUTPUT_DIR: _ci_out
         run: ./scripts/build-zok-binary.sh
 
+      - name: Copy CI binary into repo bin/
+        run: |
+          mkdir -p bin
+          cp _ci_out/zokrates-0.8.8 bin/zokrates-0.8.8.ci
+
       - name: Compare checksum to committed value
         id: verify
         shell: bash
@@ -46,19 +51,13 @@ jobs:
           fi
           echo "hash_ok=true" >> "$GITHUB_OUTPUT"
 
-      - name: Generate diffoscope report on mismatch
-        if: failure()
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y diffoscope
-          diffoscope _ci_out/zokrates-0.8.8 zokrates-0.8.8 > _ci_out/diff.txt || true
-
       - name: Upload build artefacts
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: zokrates-binary
-          path: _ci_out/*
+          path: |
+            _ci_out/*
+            bin/zokrates-0.8.8.ci
 
       - name: Open GitHub Issue on failure
         if: failure() && steps.verify.outputs.hash_ok == 'false'

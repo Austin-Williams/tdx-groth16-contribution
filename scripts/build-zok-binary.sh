@@ -25,6 +25,8 @@ DOCKERFILE_DIR="docker/zok-binary"
 BIN_OUTPUT_DIR="${BIN_OUTPUT_DIR:-bin}"
 HASH_OUTPUT_DIR="${HASH_OUTPUT_DIR:-.}"
 BINARY_NAME="zokrates-0.8.8"
+DOCKER_BUILDKIT=1
+COMPOSE_DOCKER_CLI_BUILD=1
 
 echo "[+] Building Docker image (${IMAGE_TAG})..."
 docker build \
