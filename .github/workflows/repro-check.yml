@@ -45,19 +45,24 @@ jobs:
           echo "::group::Actual SHA-256 (fresh build)";  cat _ci_out/zokrates-0.8.8.sha256; echo "::endgroup::"
 
           if ! diff -q zokrates-0.8.8.sha256 _ci_out/zokrates-0.8.8.sha256; then
-            echo "::error::SHA-256 mismatch — reproducibility broken.";
+            echo "::warning::SHA-256 mismatch — reproducibility broken.";
             echo "hash_ok=false" >> "$GITHUB_OUTPUT";
-            exit 1;
+          else
+            echo "hash_ok=true" >> "$GITHUB_OUTPUT";
           fi
-          echo "hash_ok=true" >> "$GITHUB_OUTPUT"
 
       - name: Upload build artefacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: zokrates-binary
           path: |
             _ci_out/*
             bin/zokrates-0.8.8.ci
+
+      - name: Fail job if mismatch
+        if: steps.verify.outputs.hash_ok == 'false'
+        run: exit 1
 
       - name: Open GitHub Issue on failure
         if: failure() && steps.verify.outputs.hash_ok == 'false'
