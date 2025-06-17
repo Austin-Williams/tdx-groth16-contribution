@@ -33,7 +33,11 @@ ENV DEBIAN_FRONTEND=noninteractive \
 	# Debian snapshot timestamps (UTC, ISO-8601 basic)
 	SNAPSHOT_TS=20230515T125631Z \
 	# Security snapshot needs a different timestamp with valid Release file
-	SNAPSHOT_SECURITY_TS=20230515T032833Z
+	SNAPSHOT_SECURITY_TS=20230515T032833Z \
+	# Disable ELF build-id to avoid host-dependent hash differences
+	RUSTFLAGS="-C link-arg=-Wl,--build-id=none" \
+	CARGO_INCREMENTAL=0 \
+	CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1
 
 WORKDIR /build
 

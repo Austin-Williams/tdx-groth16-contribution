@@ -46,6 +46,13 @@ jobs:
           fi
           echo "hash_ok=true" >> "$GITHUB_OUTPUT"
 
+      - name: Generate diffoscope report on mismatch
+        if: failure()
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y diffoscope
+          diffoscope _ci_out/zokrates-0.8.8 zokrates-0.8.8 > _ci_out/diff.txt || true
+
       - name: Upload build artefacts
         if: success()
         uses: actions/upload-artifact@v4
