@@ -45,6 +45,6 @@ docker cp "${CID}:/out/zokrates" "${BIN_OUTPUT_DIR}/${BINARY_NAME}"
 printf "[+] Binary copied to %s/%s\n" "${BIN_OUTPUT_DIR}" "${BINARY_NAME}"
 
 echo "[+] Generating SHA-256 checksum..."
-sha256sum "${BIN_OUTPUT_DIR}/${BINARY_NAME}" | tee "${HASH_OUTPUT_DIR}/${BINARY_NAME}.sha256"
+sha256sum "${BIN_OUTPUT_DIR}/${BINARY_NAME}" | awk '{print $1}' | tee "${HASH_OUTPUT_DIR}/${BINARY_NAME}.sha256"
 
 echo "[✓] Build complete. Binary in ${BIN_OUTPUT_DIR}/; checksum stored in ${HASH_OUTPUT_DIR}/"
