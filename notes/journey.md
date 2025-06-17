@@ -108,3 +108,4 @@ e015ef3bc217ff8cad2085fd95b55628b02e43ddd161a3ddfe47ed713ecfdec9
 - Fixed that, got close to a bit for but match , but not quite. Could not resolve bytes in metadata.
 - Calling it quits. 3 days is enough time to try to get this to work. Changing direction here.
 
+- Making plan for reproducible build process.
