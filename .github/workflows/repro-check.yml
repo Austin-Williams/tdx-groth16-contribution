@@ -28,17 +28,18 @@ jobs:
 
       - name: Run deterministic build script (output to _ci_out)
         env:
-          OUTPUT_DIR: _ci_out
+          BIN_OUTPUT_DIR: _ci_out
+          HASH_OUTPUT_DIR: _ci_out
         run: ./scripts/build-zok-binary.sh
 
       - name: Compare checksum to committed value
         id: verify
         shell: bash
         run: |
-          echo "::group::Expected SHA-256 (committed)"; cat bin/zokrates-0.8.8.sha256; echo "::endgroup::"
+          echo "::group::Expected SHA-256 (committed)"; cat zokrates-0.8.8.sha256; echo "::endgroup::"
           echo "::group::Actual SHA-256 (fresh build)";  cat _ci_out/zokrates-0.8.8.sha256; echo "::endgroup::"
 
-          if ! diff -q bin/zokrates-0.8.8.sha256 _ci_out/zokrates-0.8.8.sha256; then
+          if ! diff -q zokrates-0.8.8.sha256 _ci_out/zokrates-0.8.8.sha256; then
             echo "::error::SHA-256 mismatch — reproducibility broken.";
             echo "hash_ok=false" >> "$GITHUB_OUTPUT";
             exit 1;

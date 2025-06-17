@@ -22,7 +22,8 @@ set -euo pipefail
 
 IMAGE_TAG="${IMAGE_TAG:-zokrates-build:0.8.8}"
 DOCKERFILE_DIR="docker/zok-binary"
-OUTPUT_DIR="${OUTPUT_DIR:-bin}"
+BIN_OUTPUT_DIR="${BIN_OUTPUT_DIR:-bin}"
+HASH_OUTPUT_DIR="${HASH_OUTPUT_DIR:-.}"
 BINARY_NAME="zokrates-0.8.8"
 
 echo "[+] Building Docker image (${IMAGE_TAG})..."
@@ -38,12 +39,12 @@ CID=$(docker create "${IMAGE_TAG}")
 trap 'docker rm -f "$CID" >/dev/null' EXIT
 
 echo "[+] Extracting binary from container..."
-mkdir -p "${OUTPUT_DIR}"
-docker cp "${CID}:/out/zokrates" "${OUTPUT_DIR}/${BINARY_NAME}"
+mkdir -p "${BIN_OUTPUT_DIR}" "${HASH_OUTPUT_DIR}"
+docker cp "${CID}:/out/zokrates" "${BIN_OUTPUT_DIR}/${BINARY_NAME}"
 
-printf "[+] Binary copied to %s/%s\n" "${OUTPUT_DIR}" "${BINARY_NAME}"
+printf "[+] Binary copied to %s/%s\n" "${BIN_OUTPUT_DIR}" "${BINARY_NAME}"
 
-echo "[+] Generating SHA-256 checksum…"
-sha256sum "${OUTPUT_DIR}/${BINARY_NAME}" | tee "${OUTPUT_DIR}/${BINARY_NAME}.sha256"
+echo "[+] Generating SHA-256 checksum..."
+sha256sum "${BIN_OUTPUT_DIR}/${BINARY_NAME}" | tee "${HASH_OUTPUT_DIR}/${BINARY_NAME}.sha256"
 
-echo "[✓] Build complete. Binary & checksum are ready in ${OUTPUT_DIR}/"
+echo "[✓] Build complete. Binary in ${BIN_OUTPUT_DIR}/; checksum stored in ${HASH_OUTPUT_DIR}/"
