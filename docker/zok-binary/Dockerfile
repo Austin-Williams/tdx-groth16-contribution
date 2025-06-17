@@ -79,6 +79,7 @@ RUN --mount=type=cache,target=/root/.cargo/registry \
 # Strip & copy binary
 # ---------------------------------------------------------------------------
 RUN strip --strip-all --preserve-dates target/release/zokrates && \
+	objcopy --remove-section .note.gnu.build-id target/release/zokrates && \
 	mkdir -p /out && \
 	cp target/release/zokrates /out/
 
