@@ -39,7 +39,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 	# Disable incremental compilation
 	CARGO_INCREMENTAL=0 \
 	# Set single codegen unit
-	CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1
+	CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1 \
+	# Set single build job
+	CARGO_BUILD_JOBS=1
 
 WORKDIR /build
 
