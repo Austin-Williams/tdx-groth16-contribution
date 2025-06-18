@@ -119,3 +119,7 @@ e015ef3bc217ff8cad2085fd95b55628b02e43ddd161a3ddfe47ed713ecfdec9
 - Attempting to suss out the bin diff between local Docker build and Github Actions build. Don't want to give up on it yet. Current diff is showing the only divergance as `.note.gnu.build-id`, so I'm actually much closer than I thought. Should not change directions yet.
 
 - No luck yet. I don't seem to be getting closer either -- approx the same number of bytes not matching.
+
+- I think I might have got it! Local build and gh actions finally got the same bin hash. Awesome.
+
+- Next phase of the project: building the TDX vm image reproducibly. Now that we have a reproducible zokrates binary, we can just pull that binary directly into the VM. So *hopefully* making this vm image in a reproducible way will be much easier than building the zokrates binary in a reproducible way.

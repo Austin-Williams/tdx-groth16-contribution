@@ -3,3 +3,6 @@ Performs a Groth16 Phase 2 contribution inside an Intel TDX, producing a .params
 
 ## Requirements
 - Docker (if you want to rebuild the img yourself and verify its hash)
+
+## Notes
+Zokrates reproducible binary hash: sha256:94b96ae9c06bcffde282980f63d61eefe376640057f931a3691a7edeaa7a2939

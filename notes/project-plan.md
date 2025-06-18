@@ -5,7 +5,7 @@ Having learned some things from the nitro-pinky-swear attempt, I've decided to m
 - Will use TDX instead of Nitro enclaves for various reasons I wont cover here (tldr much safer).
 - Will NOT focus on any infra setup and tear down. That can be handled in a seperate repo. This one will focus solely on getting TDX to attest to adding secret entropy to a zkey and destroying it.
 - Will *start* with 100% reproducible images and build up from there, instead of what I tried before, where I just got things working and then tried to make it reproducible.
-- Instead of having the enclave apply the beacon and do a lot of other things, this time I will have it ONLY accept a zkey, apply entropy, output the key, and output the attestation. That does two very good things: (1) it keeps the enclave code simpler and (2) it makes it so that people can optinally use this repo to be just one of the many contributors during a trusted setup ceremony.
+- Instead of having the enclave apply the beacon and do a lot of other things, this time I will have it ONLY accept a zkey, apply entropy, output the key, and output the attestation. That does two very good things: (1) it keeps the enclave code simpler and (2) it makes it so that people can optionally use this repo to be just one of the many contributors during a trusted setup ceremony.
 
 
 ## Big Picture Flow
