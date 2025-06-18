@@ -15,7 +15,7 @@ on:
 
 jobs:
   build-and-verify:
-    runs-on: ubuntu-latest
+    runs-on: debian-latest
 
     # allow creating issues from the workflow
     permissions:
