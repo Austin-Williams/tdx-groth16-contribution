@@ -26,24 +26,42 @@ LABEL org.opencontainers.image.description="Deterministic build environment for 
 # Environment configuration
 # ---------------------------------------------------------------------------
 ENV DEBIAN_FRONTEND=noninteractive \
+	# Pin locale
+	LANG=C.UTF-8 \
+	LC_ALL=C.UTF-8 \
 	# Normalize timestamps for deterministic builds
 	SOURCE_DATE_EPOCH=1684155391 \
-	# Ensure Cargo uses locked dependencies
-	CARGO_PROFILE_RELEASE_DEBUG=false \
+	# Pin timezone
+	TZ=UTC \
 	# Debian snapshot timestamps (UTC, ISO-8601 basic)
 	SNAPSHOT_TS=20230515T125631Z \
 	# Security snapshot needs a different timestamp with valid Release file
 	SNAPSHOT_SECURITY_TS=20230515T032833Z \
-	# Disable ELF build-id to avoid host-dependent hash differences
-	RUSTFLAGS="-C link-arg=-Wl,--build-id=none -C embed-bitcode=no" \
+	# Ensure Cargo uses locked dependencies
+	CARGO_PROFILE_RELEASE_DEBUG=false \
+	# Explicit Cargo directories for stability
+	CARGO_HOME=/root/.cargo \
+	CARGO_TARGET_DIR=/build/target \
+	# Minimal, predictable PATH
+	PATH="/usr/local/cargo/bin:/usr/local/bin:/usr/bin:/bin" \
 	# Disable incremental compilation
 	CARGO_INCREMENTAL=0 \
 	# Set single codegen unit
 	CARGO_PROFILE_RELEASE_CODEGEN_UNITS=1 \
 	# Set single build job
-	CARGO_BUILD_JOBS=1
+	CARGO_BUILD_JOBS=1 \
+	# Ensure deterministic symbol / section order in GNU ld
+	RUSTFLAGS="-C link-arg=-Wl,--build-id=none \
+	-C embed-bitcode=no \
+	-C link-arg=-Wl,--sort-common \
+	-C link-arg=-Wl,--sort-section,alignment \
+	--remap-path-prefix=/build=. \
+	-C target-cpu=generic"
 
 WORKDIR /build
+
+# Set umask for consistent file permissions
+RUN umask 022
 
 # ---------------------------------------------------------------------------
 # Install minimal build tools (git, binutils, etc.) using a **frozen** Debian
@@ -59,7 +77,14 @@ RUN --mount=type=cache,target=/var/cache/apt bash -c "set -euo pipefail; \
 	echo '=== Modified sources.list ==='; \
 	cat /etc/apt/sources.list; \
 	apt-get -o Acquire::Check-Valid-Until=false update; \
-	apt-get install -y --no-install-recommends git ca-certificates binutils gcc g++ libc6-dev make; \
+	apt-get install -y --no-install-recommends \
+	git \
+	ca-certificates \
+	binutils \
+	gcc \
+	g++ \
+	libc6-dev \
+	make; \
 	rm -rf /var/lib/apt/lists/*"
 
 # ---------------------------------------------------------------------------
@@ -84,10 +109,12 @@ RUN --mount=type=cache,target=/root/.cargo/registry \
 # ---------------------------------------------------------------------------
 # Strip & copy binary
 # ---------------------------------------------------------------------------
-RUN strip --strip-all --preserve-dates target/release/zokrates && \
+RUN strip --strip-all --preserve-dates --enable-deterministic-archive target/release/zokrates && \
 	objcopy --remove-section .note.gnu.build-id target/release/zokrates && \
 	mkdir -p /out && \
-	cp target/release/zokrates /out/
+	cp target/release/zokrates /out/ && \
+	# Normalize file timestamps to SOURCE_DATE_EPOCH
+	touch -d "@${SOURCE_DATE_EPOCH}" /out/zokrates
 
 # Default command drops into shell with built binary available under /out
 CMD ["bash"]

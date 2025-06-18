@@ -51,6 +51,19 @@ jobs:
             echo "hash_ok=true" >> "$GITHUB_OUTPUT";
           fi
 
+      - name: Generate binary diff report with diffoscope
+        if: steps.verify.outputs.hash_ok == 'false'
+        run: |
+          echo "::group::Installing diffoscope"
+          sudo apt-get update
+          sudo apt-get install -y diffoscope
+          echo "::endgroup::"
+          
+          echo "::group::Generating binary diff report"
+          diffoscope --text diff.txt bin/zokrates-0.8.8 bin/zokrates-0.8.8.ci || true
+          echo "Binary diff report generated in diff.txt"
+          echo "::endgroup::"
+
       - name: Upload build artefacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -59,6 +72,7 @@ jobs:
           path: |
             _ci_out/*
             bin/zokrates-0.8.8.ci
+            diff.txt
 
       - name: Fail job if mismatch
         if: steps.verify.outputs.hash_ok == 'false'
