@@ -2,9 +2,9 @@
 # build-zok-binary.sh — Deterministically build the ZoKrates 0.8.8 linux/amd64 binary
 #
 # This script wraps our reproducible Dockerfile so that auditors can produce the
-# exact same bit-for-bit binary that the project ships.
+# exact same bit-for-bit ZoKrates binary that gets used in the tdx-guest image.
 #
-# 1. Builds the Docker image pinned in docker/zok-binary/.
+# 1. Builds the Docker image pinned in docker/zok-binary-builder/.
 # 2. Extracts the compiled binary from the /out directory inside the image.
 # 3. Writes the binary to bin/zokrates-0.8.8 (creating bin/ if necessary).
 # 4. Computes and stores the SHA-256 sum alongside the binary.
@@ -14,14 +14,17 @@
 #   • ~4 GB free disk space for the build artefacts
 #
 # Usage:
-#   ./scripts/build-zok-binary.sh            # normal build
-#   IMAGE_TAG=my-tag ./scripts/build-zok-binary.sh    # override image tag
-#   OUTPUT_DIR=custom ./scripts/build-zok-binary.sh   # override output dir
+# normal build:
+#   ./scripts/build-zok-binary.sh
+# override image tag:
+#   IMAGE_TAG=my-tag ./scripts/build-zok-binary.sh
+# override output dir:
+#   OUTPUT_DIR=custom ./scripts/build-zok-binary.sh
 #
 set -euo pipefail
 
 IMAGE_TAG="${IMAGE_TAG:-zokrates-build:0.8.8}"
-DOCKERFILE_DIR="docker/zok-binary"
+DOCKERFILE_DIR="docker/zok-binary-builder"
 BIN_OUTPUT_DIR="${BIN_OUTPUT_DIR:-bin}"
 HASH_OUTPUT_DIR="${HASH_OUTPUT_DIR:-.}"
 BINARY_NAME="zokrates-0.8.8"

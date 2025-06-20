@@ -6,15 +6,15 @@ This is intended to be an append-only log of notes as I work on this repo. I fin
 - Okay, next step is to get a simple 'hello world' reproducible rebuild using nix.
 	- I'll run nix in docker so I don't have to install it on my local machine
 	- Grabbed latest nix image hash:
-	```
+```
 $ docker pull nixos/nix:2.29.0
 2.29.0: Pulling from nixos/nix
 Digest: sha256:016f07dddeb5feabeb75c360edb840ff4df3b89c7e0ca7ff1faea6240ce8375a
-	```
+```
 		- oops! That pulled the arm64 version. I need the x86 version
 	
 	- try again
-	```
+```
 $ docker manifest inspect nixos/nix:2.29.0  | jq -r '.manifests[] | "\(.digest)  \(.platform.os)/\(.platform.architecture)"'
 sha256:00aa010b193c465d04cba4371979097741965efaff6122f3a268adbfbeab4321  linux/amd64
 sha256:9d3632c40a9ba9af1513fe1965db864c4277b26c7187e8a76e68a5767c017d6f  linux/arm64
@@ -123,3 +123,11 @@ e015ef3bc217ff8cad2085fd95b55628b02e43ddd161a3ddfe47ed713ecfdec9
 - I think I might have got it! Local build and gh actions finally got the same bin hash. Awesome.
 
 - Next phase of the project: building the TDX vm image reproducibly. Now that we have a reproducible zokrates binary, we can just pull that binary directly into the VM. So *hopefully* making this vm image in a reproducible way will be much easier than building the zokrates binary in a reproducible way.
+
+- Going back a step. Going to try swapping out the base image for one from StageX.
+
+```
+docker pull --platform=linux/amd64 stagex/pallet-rust:sx2025.06.0
+
+> Digest: sha256:740b9ed5f2a897d45cafdc806976d84231aa50a64998610750b42a48f8daacab
+```

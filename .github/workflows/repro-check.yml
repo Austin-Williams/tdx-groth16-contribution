@@ -32,10 +32,8 @@ jobs:
           HASH_OUTPUT_DIR: _ci_out
         run: ./scripts/build-zok-binary.sh
 
-      - name: Copy CI binary into repo bin/
-        run: |
-          mkdir -p bin
-          cp _ci_out/zokrates-0.8.8 bin/zokrates-0.8.8.ci
+      - name: Rename CI binary
+        run: mv _ci_out/zokrates-0.8.8 _ci_out/zokrates-0.8.8.ci
 
       - name: Compare checksum to committed value
         id: verify
@@ -60,7 +58,7 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::Generating binary diff report"
-          diffoscope --text diff.txt bin/zokrates-0.8.8 bin/zokrates-0.8.8.ci || true
+          diffoscope --text _ci_out/diff.txt bin/zokrates-0.8.8 _ci_out/zokrates-0.8.8.ci || true
           echo "Binary diff report generated in diff.txt"
           echo "::endgroup::"
 
@@ -69,10 +67,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: zokrates-binary
-          path: |
-            _ci_out/*
-            bin/zokrates-0.8.8.ci
-            diff.txt
+          path: _ci_out/*
 
       - name: Fail job if mismatch
         if: steps.verify.outputs.hash_ok == 'false'
@@ -107,7 +102,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
-          name: "Deterministic ZoKrates build – ${{ github.ref_name }}"
+          name: "Deterministic ZoKrates build - ${{ github.ref_name }}"
           draft: false
           prerelease: false
           files: _ci_out/*

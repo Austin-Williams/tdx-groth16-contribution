@@ -7,36 +7,27 @@
 # ----------------------------------------------------------------------------
 # Base image pinned by digest to ensure immutability.  Digest taken on
 # 2025-06-16 via:
-# $ docker pull rust:1.73.0-slim-bullseye
-# $ docker inspect --format='{{index .RepoDigests 0}}' rust:1.73.0-slim-bullseye
-# Update only with explicit commit review.
-
-# rust:1.73.0-slim-bullseye SHA256 digest:
-#   ARG BASE_IMAGE="rust@sha256:d641cda2c7add455eb7c565f99ca718b6e4f5c1246f2d75f15d7a2c2cc6c58da"
+# $ docker pull --platform=linux/amd64 stagex/pallet-rust:sx2025.06.0
 # ----------------------------------------------------------------------------
-ARG BASE_IMAGE="rust@sha256:d641cda2c7add455eb7c565f99ca718b6e4f5c1246f2d75f15d7a2c2cc6c58da"
+ARG BASE_IMAGE="stagex/pallet-rust@sha256:740b9ed5f2a897d45cafdc806976d84231aa50a64998610750b42a48f8daacab"
 FROM ${BASE_IMAGE} AS builder
 
-LABEL org.opencontainers.image.title="Zokrates-Builder"
-LABEL org.opencontainers.image.version="0.8.8"
-LABEL org.opencontainers.image.source="https://github.com/Zokrates/ZoKrates"
-LABEL org.opencontainers.image.description="Deterministic build environment for Zokrates 0.8.8 linux/amd64 binary"
+# Build essentials – one line per pallet
+COPY --from=stagex/pallet-gcc@sha256:415e04ee80c0fee389a25182ef3c32f319c1b70b833664d658249c88ee23175a /usr/ /usr/
+COPY --from=stagex/make@sha256:ad81793d21d9778421925085c52734fdcca443957ade4f9bb80e4032b88252db /usr/ /usr/
+COPY --from=stagex/curl@sha256:6566b4cc3148d450bc67980ef287751246ccb7c4cb3731f8e338014abda1449a /usr/ /usr/
 
 # ---------------------------------------------------------------------------
 # Environment configuration
 # ---------------------------------------------------------------------------
-ENV DEBIAN_FRONTEND=noninteractive \
+ENV \
 	# Pin locale
 	LANG=C.UTF-8 \
 	LC_ALL=C.UTF-8 \
-	# Normalize timestamps for deterministic builds
+	# Normalize timestamps
 	SOURCE_DATE_EPOCH=1684155391 \
 	# Pin timezone
 	TZ=UTC \
-	# Debian snapshot timestamps (UTC, ISO-8601 basic)
-	SNAPSHOT_TS=20230515T125631Z \
-	# Security snapshot needs a different timestamp with valid Release file
-	SNAPSHOT_SECURITY_TS=20230515T032833Z \
 	# Ensure Cargo uses locked dependencies
 	CARGO_PROFILE_RELEASE_DEBUG=false \
 	# Explicit Cargo directories for stability
@@ -62,30 +53,6 @@ WORKDIR /build
 
 # Set umask for consistent file permissions
 RUN umask 022
-
-# ---------------------------------------------------------------------------
-# Install minimal build tools (git, binutils, etc.) using a **frozen** Debian
-# snapshot to guarantee identical package versions forever.  We swap the default
-# mirrors for snapshot.debian.org at a fixed timestamp (SNAPSHOT_TS) so any
-# future build resolves to the exact same .deb files.
-# ---------------------------------------------------------------------------
-RUN --mount=type=cache,target=/var/cache/apt bash -c "set -euo pipefail; \
-	echo '=== Original sources.list ==='; \
-	cat /etc/apt/sources.list; \
-	sed -i 's|deb http://deb.debian.org/debian |deb https://snapshot.debian.org/archive/debian/${SNAPSHOT_TS} |g' /etc/apt/sources.list; \
-	sed -i 's|deb http://deb.debian.org/debian-security |deb https://snapshot.debian.org/archive/debian-security/${SNAPSHOT_SECURITY_TS} |g' /etc/apt/sources.list; \
-	echo '=== Modified sources.list ==='; \
-	cat /etc/apt/sources.list; \
-	apt-get -o Acquire::Check-Valid-Until=false update; \
-	apt-get install -y --no-install-recommends \
-	git \
-	ca-certificates \
-	binutils \
-	gcc \
-	g++ \
-	libc6-dev \
-	make; \
-	rm -rf /var/lib/apt/lists/*"
 
 # ---------------------------------------------------------------------------
 # Clone ZoKrates source (use exact commit for tag 0.8.8 as of June 16th 2025)
