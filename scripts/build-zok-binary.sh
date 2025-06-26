@@ -6,7 +6,7 @@
 #
 # 1. Builds the Docker image pinned in docker/zok-binary-builder/.
 # 2. Extracts the compiled binary from the /out directory inside the image.
-# 3. Writes the binary to bin/zokrates-0.8.8 (creating bin/ if necessary).
+# 3. Writes the binary to bin/zokrates (creating bin/ if necessary).
 # 4. Computes and stores the SHA-256 sum alongside the binary.
 #
 # Requirements:

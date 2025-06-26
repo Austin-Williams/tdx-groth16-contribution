@@ -131,3 +131,47 @@ docker pull --platform=linux/amd64 stagex/pallet-rust:sx2025.06.0
 
 > Digest: sha256:740b9ed5f2a897d45cafdc806976d84231aa50a64998610750b42a48f8daacab
 ```
+
+- Setting up a GCP instance so I have access to TDX for testing during the guset vm build
+- Installed `gcloud` locally. https://cloud.google.com/sdk/docs/install
+- Did:
+```
+gcloud init
+gcloud config set compute/region us-central1
+gcloud config set compute/zone us-central1-a
+gcloud compute instances create tdx-vm \
+  --project=$(gcloud config get-value project) \
+  --zone=us-central1-a \
+  --machine-type=c3-standard-4 \
+  --confidential-compute-type=TDX \
+  --maintenance-policy=TERMINATE \
+  --image-family=ubuntu-2204-lts \
+  --image-project=ubuntu-os-cloud
+
+> Error related to some kind of quota issue...
+```
+Seems like it is not straightforward to set up an instance with TDX support. Will dig into this now.
+- Targetting `c3-standard-8` instance type.
+- Following this guide: https://cloud.google.com/confidential-computing/confidential-vm/docs/create-your-first-confidential-vm-instance
+- Hmmm, that guide doesn't work because when you enable "Confidential VM service" in the GCP consule/UI it then only lets you choose AMD instance types. It says "Confidential Computing does not support the selected machine series. Choose from N2D, C3D, or C2D", and all three of those are AMD.
+
+- Okay, so Google doesn't privide any docs for how to create a TDX-enable instance. I will yolo with an LLM to see if it can walk me through it.
+
+```
+gcloud compute instances create tdx-vm \
+  --project=$(gcloud config get-value project) \
+  --zone=us-central1-a \
+  --machine-type=c3-standard-8 \
+  --confidential-compute-type=TDX \
+  --maintenance-policy=TERMINATE \
+  --image-family=ubuntu-2204-lts \
+  --image-project=ubuntu-os-cloud
+
+> ERROR: (gcloud.compute.instances.create) Could not fetch resource:
+> - Quota 'C3_CPUS' exceeded.  Limit: 5.0 in region us-central1.
+>        metric name = compute.googleapis.com/c3_cpus
+>        limit name = C3-CPUS-per-project-region
+>        limit = 5.0
+>        dimensions = region: us-central1
+```
+- Have to come back to this later, no more time today.

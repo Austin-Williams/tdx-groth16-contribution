@@ -36,10 +36,10 @@ jobs:
         id: verify
         shell: bash
         run: |
-          echo "::group::Expected SHA-256 (committed)"; cat zokrates-0.8.8.sha256; echo "::endgroup::"
-          echo "::group::Actual SHA-256 (fresh build)";  cat _ci_out/zokrates-0.8.8.sha256; echo "::endgroup::"
+          echo "::group::Expected SHA-256 (committed)"; cat zokrates.sha256; echo "::endgroup::"
+          echo "::group::Actual SHA-256 (fresh build)";  cat _ci_out/zokrates.sha256; echo "::endgroup::"
 
-          if ! diff -q zokrates-0.8.8.sha256 _ci_out/zokrates-0.8.8.sha256; then
+          if ! diff -q zokrates.sha256 _ci_out/zokrates.sha256; then
             echo "::warning::SHA-256 mismatch — reproducibility broken.";
             echo "hash_ok=false" >> "$GITHUB_OUTPUT";
           else
@@ -55,7 +55,7 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::Generating binary diff report"
-          diffoscope --text _ci_out/diff.txt bin/zokrates-0.8.8 _ci_out/zokrates-0.8.8 || true
+          diffoscope --text _ci_out/diff.txt bin/zokrates _ci_out/zokrates || true
           echo "Binary diff report generated in diff.txt"
           echo "::endgroup::"
 

@@ -12,7 +12,7 @@ The scheduled or triggered reproducibility check has failed.
 **What happened?**
 
 The SHA-256 checksum produced by a fresh deterministic build in CI does **not** match
-`zokrates-0.8.8.sha256` committed in the repository. This usually means that
+`zokrates.sha256` committed in the repository. This usually means that
 one of the following changed since the last known-good build:
 
 1. Upstream dependencies (Rust crates, base image, Debian snapshots)

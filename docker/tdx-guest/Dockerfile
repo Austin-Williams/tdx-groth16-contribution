@@ -5,8 +5,8 @@ WORKDIR /app
 
 # Copy the pre-built zokrates binary from the build context into the image
 # Assumes the build context is the root of the tdx-groth16-contribution project
-# and the binary is at bin/zokrates-0.8.8 relative to the context.
-COPY bin/zokrates-0.8.8 /usr/local/bin/zokrates
+# and the binary is at bin/zokrates relative to the context.
+COPY bin/zokrates /usr/local/bin/zokrates
 
 # Ensure the zokrates binary is executable
 RUN chmod +x /usr/local/bin/zokrates
