@@ -2,7 +2,7 @@
 # Reproducible Zokrates 0.8.8 Builder Image
 # ----------------------------------------------------------------------------
 # This Dockerfile defines a minimal, deterministic environment for building the
-# Zokrates 0.8.8 linux/amd64 binary.  It is deliberately simple so auditors can
+# Zokrates 0.8.8 linux/amd64 binary. It is deliberately simple so auditors can
 # easily verify every step.
 # ----------------------------------------------------------------------------
 # Base image pinned by digest to ensure immutability.  Digest taken on
@@ -71,7 +71,7 @@ RUN git init . \
 # ---------------------------------------------------------------------------
 RUN --mount=type=cache,target=/root/.cargo/registry \
 	--mount=type=cache,target=/root/.cargo/git \
-	cargo build --release --locked
+	cargo build --release --locked --package zokrates_cli --bin zokrates
 
 # ---------------------------------------------------------------------------
 # Strip & copy binary
