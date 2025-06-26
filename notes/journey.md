@@ -175,3 +175,12 @@ gcloud compute instances create tdx-vm \
 >        dimensions = region: us-central1
 ```
 - Have to come back to this later, no more time today.
+- Okay got a smaller instance up and running.
+- Sigh, the smaller instance is TOO small and can't compile the binary (not enough RAM).
+
+- Okay recap:
+	- Want to use TDX
+	- GCP will not let me get an instance that supports TDX _and__ has enough RAM to compile the Zokrates binary (I need a machine with 32 GB of RAM).
+	- I requested the ability to get a larger instance (c3-standard-8) but they denied it because my account is too new. (How is GCP this bad? I don't understand!)
+	- So I guess I have to "farm" repuation by burning money on a small server (for how long?) until they grant me permission to use larger instances -- ones that have a _whopping_ 32 GB of RAM :eye-roll:
+	- Honestly I think I'd rather buy my own TDX-compatible hardware than play these stupid games. Or maybe I could I could try Azure -- they might just accept money for instances. WIll need to research both before moving forward.
