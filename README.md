@@ -11,6 +11,3 @@ Zokrates reproducible binary hash: sha256:b76ebf790b89084aa91a0224bd4ae3c19e9637
 (Note: I tested the following using UTM on Apple silicon (M4 Pro) inside an Ubuntu 25.04 - arm64 VM with 16 GB RAM and 4 CPU cores)
 - sudo apt-get update
 - install git and docker
-
-
-

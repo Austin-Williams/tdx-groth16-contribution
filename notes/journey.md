@@ -158,7 +158,7 @@ Seems like it is not straightforward to set up an instance with TDX support. Wil
 - Okay, so Google doesn't privide any docs for how to create a TDX-enable instance. I will yolo with an LLM to see if it can walk me through it.
 
 ```
-gcloud compute instances create tdx-vm \
+gcloud compute instances create tdx-dev \
   --project=$(gcloud config get-value project) \
   --zone=us-central1-a \
   --machine-type=c3-standard-8 \
