@@ -184,3 +184,7 @@ gcloud compute instances create tdx-dev \
 	- I requested the ability to get a larger instance (c3-standard-8) but they denied it because my account is too new. (How is GCP this bad? I don't understand!)
 	- So I guess I have to "farm" repuation by burning money on a small server (for how long?) until they grant me permission to use larger instances -- ones that have a _whopping_ 32 GB of RAM :eye-roll:
 	- Honestly I think I'd rather buy my own TDX-compatible hardware than play these stupid games. Or maybe I could I could try Azure -- they might just accept money for instances. WIll need to research both before moving forward.
+
+- While waiting on a GCP solution I started doing other prep work, and I noticed that the latest version of SnarkJS cannot actually export from .zkey format to a .params format that Zokrates can read. Older versions of SnarkJS could, but those older versions have security problems. And the newer version switched some endianness somewhere and so Zokrates can't read it. I don't want to encourage users to downgrade SnarkJS versions (even if just for doing the conversion) for fear that they'll hit those security issues. I don't want to introduce a footgun. So, the plan now is to dump Zokrates and do the TEE contribution using SnarkJS instead.
+
+- So, while waiting on a GCP solution, I'll start working on rewriting the previous stuff to use SnarkJS instead of Zokrates.

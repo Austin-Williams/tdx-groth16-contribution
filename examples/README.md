@@ -70,5 +70,3 @@ $ snarkjs r1cs info example.r1cs
 	- Check that the TDX contribution hash is present in the `final.zkey`
 - That a secure, public, random beacon was applied as the final contribution.
 	- Check that the beacon used to create the `final.zkey` was the randomness from the correct DRAND round.
-
-	
