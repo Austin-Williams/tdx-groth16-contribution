@@ -7,7 +7,6 @@ description: Cause the current model to output a prompt to give to a more capabl
 Copy **everything** below (between the two delimiter lines) and send it as *your next reply* **without adding or omitting anything else**.  
 It is a set of instructions you must follow **now** in order to prepare a briefing that will be handed to a more–capable model that is about to take over this task.
 
-```
 You are entering ESCALATION MODE.
 
 Your sole job right now is to write a clear, complete briefing for a stronger model that will soon replace you.  
@@ -62,4 +61,3 @@ If you were going to try one more thing, what would it be and why?  Keep it shor
 –––––   END YOUR BRIEFING    –––––
 
 Remember: *do not continue working on the task itself*.  Your entire output must be the briefing above, filled out.
-```

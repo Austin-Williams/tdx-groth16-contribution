@@ -188,3 +188,15 @@ gcloud compute instances create tdx-dev \
 - While waiting on a GCP solution I started doing other prep work, and I noticed that the latest version of SnarkJS cannot actually export from .zkey format to a .params format that Zokrates can read. Older versions of SnarkJS could, but those older versions have security problems. And the newer version switched some endianness somewhere and so Zokrates can't read it. I don't want to encourage users to downgrade SnarkJS versions (even if just for doing the conversion) for fear that they'll hit those security issues. I don't want to introduce a footgun. So, the plan now is to dump Zokrates and do the TEE contribution using SnarkJS instead.
 
 - So, while waiting on a GCP solution, I'll start working on rewriting the previous stuff to use SnarkJS instead of Zokrates.
+
+- Okay, got Snarkjs contribute repro building and have a small GCP instance up.
+- Installing docker following: https://docs.docker.com/engine/install/ubuntu/
+- sudo usermod -aG docker "$USER"
+- sudo reboot
+- Run `./scripts/build-snarkjs-binary.sh`
+- (hash checks out, nice!)
+- chmod +x ./bin/snarkjs-contribute
+- `sudo apt-get install musl`
+- `cd examples`
+
+

@@ -7,7 +7,6 @@ description: Hand off a solved problem to a less capable model for routine imple
 Copy **everything** below (between the two delimiter lines) and send it as *your next reply* **without adding or omitting anything else**.  
 This will prepare a comprehensive briefing for a less powerful model that will handle the remaining routine tasks.
 
-```
 You are entering DE-ESCALATION MODE.
 
 The hard problem has been solved. Your task now is to prepare a crystal-clear handoff document for a less powerful model that will implement the remaining straightforward steps. Think of it as writing instructions for a competent junior developer who needs explicit guidance but can execute well-defined tasks reliably.
