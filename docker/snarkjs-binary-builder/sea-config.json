@@ -1,0 +1,11 @@
+{
+	"main": "contribute.cjs",
+	"output": "sea-prep.blob",
+	"disableExperimentalSEAWarning": true,
+	"useSnapshot": false,
+	"useCodeCache": false,
+	"assets": {
+		"snarkjs.js": "snarkjs.js",
+		"snarkjs-wrapper.js": "snarkjs-wrapper.js"
+	}
+}

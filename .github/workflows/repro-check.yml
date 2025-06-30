@@ -1,8 +1,8 @@
-# Reproducible ZoKrates Watchdog
-# Builds the binary on push, weekly, or manual trigger.
-# Fails (and opens an issue) if the fresh SHA-256 differs from the committed one.
+# # Reproducible SnarkJS Watchdog
+# # Builds the binary on push, weekly, or manual trigger.
+# # Fails (and opens an issue) if the fresh SHA-256 differs from the committed one.
 
-name: Reproducible ZoKrates Watchdog
+name: Reproducible SnarkJS Watchdog
 
 on:
   push:
@@ -27,19 +27,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run deterministic build script (output to _ci_out)
-        env:
-          BIN_OUTPUT_DIR: _ci_out
-          HASH_OUTPUT_DIR: _ci_out
-        run: ./scripts/build-zok-binary.sh
+        run: |
+          mkdir -p _ci_ref _ci_out
+          cp snarkjs-contribute.sha256 _ci_ref/committed.sha256
+          ./scripts/build-snarkjs-binary.sh
+          cp bin/snarkjs-contribute _ci_out/
+          cp snarkjs-contribute.sha256 _ci_out/
 
       - name: Compare checksum to committed value
         id: verify
         shell: bash
         run: |
-          echo "::group::Expected SHA-256 (committed)"; cat zokrates.sha256; echo "::endgroup::"
-          echo "::group::Actual SHA-256 (fresh build)";  cat _ci_out/zokrates.sha256; echo "::endgroup::"
+          echo "::group::Expected SHA-256 (committed)"; cat _ci_ref/committed.sha256; echo "::endgroup::"
+          echo "::group::Actual SHA-256 (fresh build)";  cat _ci_out/snarkjs-contribute.sha256; echo "::endgroup::"
 
-          if ! diff -q zokrates.sha256 _ci_out/zokrates.sha256; then
+          if ! diff -q _ci_ref/committed.sha256 _ci_out/snarkjs-contribute.sha256; then
             echo "::warning::SHA-256 mismatch — reproducibility broken.";
             echo "hash_ok=false" >> "$GITHUB_OUTPUT";
           else
@@ -55,7 +57,7 @@ jobs:
           echo "::endgroup::"
           
           echo "::group::Generating binary diff report"
-          diffoscope --text _ci_out/diff.txt bin/zokrates _ci_out/zokrates || true
+          diffoscope --text _ci_out/diff.txt bin/snarkjs-contribute _ci_out/snarkjs-contribute || true
           echo "Binary diff report generated in diff.txt"
           echo "::endgroup::"
 
@@ -63,7 +65,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: zokrates-binary
+          name: snarkjs-binary
           path: _ci_out/*
 
       - name: Fail job if mismatch
@@ -91,7 +93,7 @@ jobs:
       - name: Download artefact
         uses: actions/download-artifact@v4
         with:
-          name: zokrates-binary
+          name: snarkjs-binary
           path: _ci_out
 
       - name: Create / Update GitHub Release
@@ -99,7 +101,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
-          name: "Deterministic ZoKrates build - ${{ github.ref_name }}"
+          name: "Deterministic SnarkJS build - ${{ github.ref_name }}"
           draft: false
           prerelease: false
           files: _ci_out/*
