@@ -2,10 +2,13 @@
 Performs a Groth16 Phase 2 contribution inside an Intel TDX, producing a .zkey file and a remote attestation that the toxic waste was never accessible to anyone.
 
 ## Requirements
-- Docker
+- [NodeJS 24+](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)
+- [Docker](https://docs.docker.com/engine/install/debian/)
 
 ## Reproducing SnarkJS Binaries
+- add user to docker group `sudo usermod -aG docker $USER && newgrp docker`
 - run `./scripts/build-snarkjs-binary.sh`
+
 
 Expected SnarkJS reproducible binary hash: sha256:6f487735ab1ad394241391539d7a090892ce9749ea8ce03322ebefd25ac5b582
 
