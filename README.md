@@ -1,13 +1,21 @@
 # tdx-groth16-contribution
-Performs a Groth16 Phase 2 contribution inside an Intel TDX, producing a .params file and a remote attestation that the toxic waste was never accessible to anyone.
+Performs a Groth16 Phase 2 contribution inside an Intel TDX, producing a .zkey file and a remote attestation that the toxic waste was never accessible to anyone.
 
 ## Requirements
-- Docker (if you want to rebuild the img yourself and verify its hash)
+- Docker
 
-## Notes
-Zokrates reproducible binary hash: sha256:b76ebf790b89084aa91a0224bd4ae3c19e96371ba694fe1a7122f04759faeb86
+## Reproducing SnarkJS Binaries
+- run `./scripts/build-snarkjs-binary.sh`
 
-## Reproducing Zokrates Binaries
-(Note: I tested the following using UTM on Apple silicon (M4 Pro) inside an Ubuntu 25.04 - arm64 VM with 16 GB RAM and 4 CPU cores)
-- sudo apt-get update
-- install git and docker
+Expected SnarkJS reproducible binary hash: sha256:6f487735ab1ad394241391539d7a090892ce9749ea8ce03322ebefd25ac5b582
+
+You can invoke the resulting binary (`./bin/snarkjs-contribute`) from any directory in which a file with the name `tdxInput.zkey` exists. The resulting `tdxOutput.zkey` will be written to the same directory. Note that
+
+## TDX-Image notes
+- Build: `./scripts/build-tdx-image.sh`
+- Export: `docker container create --name tdx-export tdx-image > /dev/null && docker export tdx-export | gzip > tdx-image.tar.gz && docker rm tdx-export`
+- Pick/create a GCS bucket: `gsutil mb -p <PROJECT_ID> gs://my-tdx-images/`
+- Upload the tarball: `gsutil cp tdx-image.tar.gz gs://my-tdx-images/`
+
+rootfs.tar.gz
+sha256:7f3e54beda1477973af852152555cdb335115fd3b8cc93daf898b0862bcf3cc7
