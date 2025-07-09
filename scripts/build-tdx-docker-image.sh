@@ -9,7 +9,7 @@ set -euo pipefail
 
 ROOTFS_TAR="tdx-rootfs.tar.gz"
 
-# Target platform for reproducible builds (override by exporting PLATFORM before running)
+# Target platform for reproducible builds
 PLATFORM=${PLATFORM:-linux/amd64}
 
 # Remove any existing tarball to start clean

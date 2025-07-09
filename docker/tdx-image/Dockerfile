@@ -32,6 +32,7 @@ COPY --from=stage_iproute2 / /
 # ── minimal runtime configuration ─────────────────────
 RUN set -eux; \
 	echo "root:x:0:0:root:/root:/bin/sh"   > /etc/passwd; \
+	echo "root:x:0:"              > /etc/group; \
 	echo "root::19000:0:99999:7:::"        > /etc/shadow; \
 	mkdir -p /root/.ssh; chmod 700 /root/.ssh; echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC0nSnwx3ko3Z7qnVB4PQD0hnsN3vS3IHR2E2PWN5bZaM7fAW//GTaWif5KOX3xKPVbLCE39N+MVxDNWUCBZw+aYV4u2nRDcouincywvBl1A2pFxNMqL1curpg8VF1DVdvrwEOrwO0jlVQyfaMC7Urg4l9Nm5B5NGu0jIGmsKqvpPMy01sevsvnvH5Vf3mHdxPOXE1Gf/hD503QmWNQ9UYVE/69FzShJxIo5WL4NbwAJMhKP9DWxg/oBGpqtQUjIX1m0NDQoRklixTQA62NPunFql/A0S/t+ZwRaWTGWPkljffQJ4ZvLFfqzEVygBRY4hy3GClA+6hfXajSPsPbrpAm6toJH6KklN4niYTykkgu6WNTUozGkj/OFzfPmhNsng3kKF5Upve2qFs6NNRsg7YrZf5JgaFtvszitY5s8Rl31CM1JTV4/LQO+DhMEBPuz4JqseI5f+ZW/8ZMoJgKspZG+j81bC4IjzyzrbE6cwptQs4jzgsSo87EfSjqafeTOsE= computer@Computer.local' > /root/.ssh/authorized_keys; chmod 600 /root/.ssh/authorized_keys; \
 	# BusyBox init script – start DHCP then sshd
