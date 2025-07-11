@@ -188,3 +188,18 @@ gcloud compute instances create tdx-dev \
 - While waiting on a GCP solution I started doing other prep work, and I noticed that the latest version of SnarkJS cannot actually export from .zkey format to a .params format that Zokrates can read. Older versions of SnarkJS could, but those older versions have security problems. And the newer version switched some endianness somewhere and so Zokrates can't read it. I don't want to encourage users to downgrade SnarkJS versions (even if just for doing the conversion) for fear that they'll hit those security issues. I don't want to introduce a footgun. So, the plan now is to dump Zokrates and do the TEE contribution using SnarkJS instead.
 
 - So, while waiting on a GCP solution, I'll start working on rewriting the previous stuff to use SnarkJS instead of Zokrates.
+
+===========================
+
+UPDATE (several work days later):
+I have been unable to get even a minimal (as in "only lets a user SSH into a machine and does nothing else") GCP image to build reproducibly.
+
+I was able to get such a minimal `rootfs.tar.gz` to build reproducibly. You can run `./scripts/build-rootfs.sh` to make that happen (expected hash of `out/rootfs.tar.gz` is `sha256:afd4eb98f62936e0f47139945baec695e1117b57e4aff2ce7493af2e307dcbff`).
+
+But you cannot boot a GCP instance with that. GCP requires a .raw file (or more specifically, a targ.gz file that unpacks to a .raw file), and I have been unable to turn the (reproducible) `rootfs.tar.gz` into a .raw file in a way that is bit-for-bit reproducible.
+
+It is important to note that 100% perfect bit-for-bit reproducibility is *critical* for this project because the TDX attestation signs (roughly speaking) only the _hash_ of the image that it is running. So for people to be able to verifiy that the TDX image was actually running the correct code, they need to be able to rebuild the image bit-for-bit from the source code. It is this reproducibility that I have been unable to achieve.
+
+In short: I've spent several weeks trying more methods than I've had time to list above to create a reproducible GCP image that can be used for the TDX instance that runs snarkjs, and have not succeeded. If I had infinite time and energy and resources I'd continue to work on this because I think it is a valuable project. Alas, I do not, and so I'm choosing to cut my losses here, as I am unconvinced I can make any more forward progress in any reasonable amount of time.
+
+I hope that someone else manages to pull this off. It will make Groth16 (which again, is the *only* ZKP system that is cheap to verify on Ethereum) accessible to _everyone_ -- because it will let any arbitrary person perform the trusted setup step (in the TEE) in such a way that everyone can trust that the toxic waste was destroyed. In other words, it would make Groth16 available to devs who do not have the social capital required to coordinate a massive, public, multi-party ceremony with dozens of famous/known participants.
